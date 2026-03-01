@@ -29,9 +29,9 @@ html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
 
 .desktop-watermark {
   position: absolute;
-  bottom: 42px;
+  bottom: 16px;
   right: 16px;
-  color: rgba(201, 168, 76, 0.12);
+  color: rgba(201, 168, 76, 0.25);
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 14px;
   font-style: italic;
@@ -42,8 +42,8 @@ html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
 
 /* ===== MAIN WINDOW ===== */
 .main-window {
-  width: 720px;
-  max-height: calc(100vh - 50px);
+  width: 860px;
+  max-height: calc(100vh - 20px);
   position: relative;
   z-index: 10;
   animation: windowOpen 0.2s ease-out;
@@ -97,14 +97,14 @@ html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
 }
 
 .drop-text {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   margin: 0 0 4px 0;
   color: #000;
 }
 
 .drop-subtext {
-  font-size: 11px;
+  font-size: 12px;
   color: #808080;
   margin: 0;
 }
@@ -179,7 +179,7 @@ body.loading, body.loading * {
 }
 
 .verify-tabs menu[role="tablist"] li[role="tab"] a {
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .tab-window {
@@ -187,9 +187,9 @@ body.loading, body.loading * {
 }
 
 .tab-body {
-  padding: 12px;
-  min-height: 260px;
-  max-height: 340px;
+  padding: 16px;
+  min-height: 300px;
+  max-height: 420px;
   overflow-y: auto;
 }
 
@@ -218,15 +218,18 @@ body.loading, body.loading * {
 }
 
 .field-row-stacked label {
-  font-size: 11px;
-  margin-bottom: 2px;
+  font-size: 12px;
+  margin-bottom: 3px;
   display: block;
+  font-weight: bold;
 }
 
 .field-row-stacked input,
 .field-row-stacked select,
 .field-row-stacked textarea {
   width: 100%;
+  font-size: 13px;
+  padding: 4px 6px;
 }
 
 textarea { resize: vertical; font-family: inherit; }
@@ -242,29 +245,17 @@ fieldset {
 }
 
 fieldset legend {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: bold;
 }
 
 /* Verify footer */
 .verify-footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   padding: 8px 12px 10px;
   border-top: 1px solid #dfdfdf;
-}
-
-.demo-mode {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-}
-
-.demo-mode select {
-  width: 110px;
-  font-size: 11px;
 }
 
 .verify-actions {
@@ -282,19 +273,19 @@ fieldset legend {
 .processing-container { padding: 16px; }
 
 .processing-title {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
-  margin: 0 0 8px 0;
+  margin: 0 0 10px 0;
 }
 
 .status-log {
   font-family: 'Courier New', Courier, monospace;
-  font-size: 13px;
-  padding: 12px;
+  font-size: 14px;
+  padding: 14px;
   background: #000;
   color: #00ff41;
-  min-height: 180px;
-  line-height: 1.8;
+  min-height: 220px;
+  line-height: 1.9;
 }
 
 /* 98.css sunken panel override for terminal look */
@@ -421,64 +412,6 @@ fieldset legend {
   z-index: 199;
 }
 
-/* ===== TASKBAR ===== */
-.taskbar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 30px;
-  background: #c0c0c0;
-  border-top: 1px solid #fff;
-  display: flex;
-  align-items: center;
-  padding: 2px 2px;
-  z-index: 100;
-  box-shadow: inset 0 1px 0 #dfdfdf;
-}
-
-.start-button {
-  display: flex;
-  align-items: center;
-  font-weight: bold;
-  font-size: 11px;
-  padding: 1px 6px;
-  height: 22px;
-  margin-right: 2px;
-}
-
-.taskbar-divider {
-  width: 2px;
-  height: 20px;
-  border-left: 1px solid #808080;
-  border-right: 1px solid #fff;
-  margin: 0 3px;
-}
-
-.taskbar-item {
-  padding: 1px 8px;
-  font-size: 11px;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  min-width: 180px;
-  background: #c0c0c0;
-}
-
-.taskbar-item.active {
-  box-shadow: inset -1px -1px #dfdfdf, inset 1px 1px #0a0a0a;
-  font-weight: bold;
-}
-
-.taskbar-tray {
-  margin-left: auto;
-  padding: 1px 8px;
-  font-size: 11px;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  box-shadow: inset -1px -1px #fff, inset 1px 1px #808080;
-}
 
 /* ===== SCROLLBAR STYLING ===== */
 .tab-body::-webkit-scrollbar { width: 16px; }
