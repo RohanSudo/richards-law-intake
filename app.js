@@ -12,26 +12,10 @@ const $$ = (sel) => document.querySelectorAll(sel);
 
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
-  initClock();
   initDropZone();
   initTabs();
   initButtons();
-  initDemoMode();
 });
-
-// ===== CLOCK =====
-function initClock() {
-  function updateClock() {
-    const now = new Date();
-    let h = now.getHours();
-    const m = String(now.getMinutes()).padStart(2, '0');
-    const ampm = h >= 12 ? 'PM' : 'AM';
-    h = h % 12 || 12;
-    $('#taskbar-clock').textContent = `${h}:${m} ${ampm}`;
-  }
-  updateClock();
-  setInterval(updateClock, 30000);
-}
 
 // ===== DROP ZONE =====
 function initDropZone() {
@@ -111,14 +95,6 @@ function initTabs() {
   });
 }
 
-// ===== DEMO MODE =====
-function initDemoMode() {
-  $('#demo-toggle').addEventListener('change', (e) => {
-    $('#demo-month').disabled = !e.target.checked;
-    if (!e.target.checked) $('#demo-month').value = '';
-  });
-}
-
 // ===== BUTTONS =====
 function initButtons() {
   $('#btn-upload').addEventListener('click', handleUpload);
@@ -140,7 +116,6 @@ function switchState(state) {
     processing: 'Richards & Law - Processing Case'
   };
   $('#window-title').textContent = titles[state] || titles.upload;
-  $('#taskbar-item').innerHTML = `&#128194; ${titles[state] || titles.upload}`;
 }
 
 // ===== UPLOAD HANDLER =====
@@ -191,6 +166,7 @@ async function handleUpload() {
 
 function resetUploadUI() {
   document.body.classList.remove('loading');
+  // Use querySelectorAll to find the container reliably
   const container = document.querySelector('.upload-container');
   if (container) container.style.display = '';
   $('#upload-loading').style.display = 'none';
@@ -225,11 +201,6 @@ async function handleApprove() {
   $$('[data-field]').forEach((el) => {
     payload[el.dataset.field] = el.value;
   });
-
-  // Add demo mode month if enabled
-  if ($('#demo-toggle').checked && $('#demo-month').value) {
-    payload.demo_mode_month = $('#demo-month').value;
-  }
 
   // Switch to processing state
   switchState('processing');
@@ -307,6 +278,7 @@ async function processCase(payload) {
 
   // All simulated steps done - wait for API if not done yet
   if (!apiDone) {
+    // Show the last step as still active until API responds
     setStatus('Finalizing...');
     try {
       apiResult = await apiPromise;
@@ -382,9 +354,6 @@ function handleNewCase() {
     }
   });
   $('#upload-email').value = 'talent.legal-engineer.hackathon.automation-email@swans.co';
-  $('#demo-toggle').checked = false;
-  $('#demo-month').disabled = true;
-  $('#demo-month').value = '';
 
   // Reset tabs to first
   $$('menu[role="tablist"] li[role="tab"]').forEach((t, i) => {
@@ -400,6 +369,7 @@ function handleNewCase() {
 
 // ===== ERROR DIALOG =====
 function showError(message) {
+  // Add backdrop
   let backdrop = $('.error-backdrop');
   if (!backdrop) {
     backdrop = document.createElement('div');
