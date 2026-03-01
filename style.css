@@ -2,6 +2,11 @@
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
 
+/* Force readable font size on all 98.css elements */
+body, button, input, select, textarea, .window, .title-bar-text {
+  font-size: 14px;
+}
+
 /* ===== DESKTOP ===== */
 .desktop {
   width: 100%;
@@ -64,12 +69,12 @@ html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
 .state.active { display: block; }
 
 /* ===== STATE 1: UPLOAD ===== */
-.upload-container { padding: 16px; }
+.upload-container { padding: 20px; }
 
 .drop-zone {
   border: 2px dashed #808080;
   background: #ffffff;
-  min-height: 180px;
+  min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,24 +92,24 @@ html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
 .drop-zone-content,
 .drop-zone-file {
   text-align: center;
-  padding: 20px;
+  padding: 24px;
 }
 
 .drop-icon {
-  font-size: 48px;
-  margin-bottom: 8px;
+  font-size: 52px;
+  margin-bottom: 10px;
   filter: grayscale(0.3);
 }
 
 .drop-text {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
-  margin: 0 0 4px 0;
+  margin: 0 0 6px 0;
   color: #000;
 }
 
 .drop-subtext {
-  font-size: 12px;
+  font-size: 14px;
   color: #808080;
   margin: 0;
 }
@@ -112,12 +117,12 @@ html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
 .drop-zone-file { position: relative; }
 
 .file-icon {
-  font-size: 40px;
-  margin-bottom: 4px;
+  font-size: 44px;
+  margin-bottom: 6px;
 }
 
 .file-name {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
   color: #000080;
   margin: 0;
@@ -128,38 +133,40 @@ html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
   position: absolute;
   top: 8px;
   right: 8px;
-  font-size: 12px;
-  min-width: 20px;
-  min-height: 20px;
-  padding: 0 4px;
+  font-size: 14px;
+  min-width: 24px;
+  min-height: 24px;
+  padding: 0 6px;
 }
 
 .upload-actions {
-  margin-top: 12px;
+  margin-top: 14px;
   text-align: right;
 }
 
 .upload-actions button {
-  min-width: 120px;
+  min-width: 140px;
   font-weight: bold;
+  font-size: 14px;
+  padding: 6px 16px;
 }
 
 /* Loading overlay */
 .upload-loading {
-  padding: 32px 24px;
+  padding: 36px 28px;
   text-align: center;
 }
 
 .loading-title {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
-  margin: 0 0 8px 0;
+  margin: 0 0 10px 0;
 }
 
 .loading-subtitle {
-  font-size: 11px;
+  font-size: 13px;
   color: #808080;
-  margin: 0 0 16px 0;
+  margin: 0 0 18px 0;
 }
 
 /* Hourglass cursor during loading */
@@ -169,7 +176,7 @@ body.loading, body.loading * {
 
 /* ===== STATE 2: VERIFY ===== */
 .verify-tabs {
-  padding: 8px 12px 0 12px;
+  padding: 10px 14px 0 14px;
 }
 
 .verify-tabs menu[role="tablist"] {
@@ -179,7 +186,8 @@ body.loading, body.loading * {
 }
 
 .verify-tabs menu[role="tablist"] li[role="tab"] a {
-  font-size: 13px;
+  font-size: 14px;
+  padding: 4px 14px;
 }
 
 .tab-window {
@@ -187,9 +195,9 @@ body.loading, body.loading * {
 }
 
 .tab-body {
-  padding: 16px;
-  min-height: 300px;
-  max-height: 420px;
+  padding: 18px;
+  min-height: 320px;
+  max-height: 440px;
   overflow-y: auto;
 }
 
@@ -199,37 +207,38 @@ body.loading, body.loading * {
 /* Form layout */
 .form-row {
   display: flex;
-  gap: 12px;
-  margin-bottom: 2px;
+  gap: 14px;
+  margin-bottom: 4px;
 }
 
 .field-half { flex: 1; }
 
 .form-row-thirds {
   display: flex;
-  gap: 12px;
-  margin-bottom: 2px;
+  gap: 14px;
+  margin-bottom: 4px;
 }
 
 .form-row-thirds > .field-row-stacked { flex: 1; }
 
 .field-row-stacked {
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .field-row-stacked label {
-  font-size: 12px;
-  margin-bottom: 3px;
+  font-size: 13px;
+  margin-bottom: 4px;
   display: block;
   font-weight: bold;
+  color: #000;
 }
 
 .field-row-stacked input,
 .field-row-stacked select,
 .field-row-stacked textarea {
   width: 100%;
-  font-size: 13px;
-  padding: 4px 6px;
+  font-size: 14px;
+  padding: 5px 8px;
 }
 
 textarea { resize: vertical; font-family: inherit; }
@@ -240,12 +249,12 @@ textarea { resize: vertical; font-family: inherit; }
 }
 
 fieldset {
-  margin-top: 8px;
-  padding: 8px 12px 12px;
+  margin-top: 10px;
+  padding: 10px 14px 14px;
 }
 
 fieldset legend {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: bold;
 }
 
@@ -254,38 +263,42 @@ fieldset legend {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 8px 12px 10px;
+  padding: 10px 14px 12px;
   border-top: 1px solid #dfdfdf;
 }
 
 .verify-actions {
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
 
-.verify-actions button { min-width: 80px; }
+.verify-actions button {
+  min-width: 90px;
+  font-size: 14px;
+  padding: 5px 14px;
+}
 
 #btn-approve {
   font-weight: bold;
 }
 
 /* ===== STATE 3: PROCESSING ===== */
-.processing-container { padding: 16px; }
+.processing-container { padding: 20px; }
 
 .processing-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
-  margin: 0 0 10px 0;
+  margin: 0 0 12px 0;
 }
 
 .status-log {
   font-family: 'Courier New', Courier, monospace;
-  font-size: 14px;
-  padding: 14px;
+  font-size: 15px;
+  padding: 16px;
   background: #000;
   color: #00ff41;
-  min-height: 220px;
-  line-height: 1.9;
+  min-height: 240px;
+  line-height: 2;
 }
 
 /* 98.css sunken panel override for terminal look */
@@ -296,7 +309,7 @@ fieldset legend {
 .step {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   opacity: 0.4;
   transition: opacity 0.3s;
 }
@@ -318,7 +331,7 @@ fieldset legend {
 
 .step-icon {
   flex-shrink: 0;
-  width: 16px;
+  width: 18px;
   text-align: center;
 }
 
@@ -340,37 +353,41 @@ fieldset legend {
 }
 
 .processing-result {
-  margin-top: 12px;
-  padding: 10px;
-  font-size: 13px;
+  margin-top: 14px;
+  padding: 12px;
+  font-size: 14px;
 }
 
 .result-success p:first-child {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
   color: #000;
-  margin: 0 0 4px 0;
+  margin: 0 0 6px 0;
 }
 
 .result-error p:first-child {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
   color: #8b0000;
-  margin: 0 0 4px 0;
+  margin: 0 0 6px 0;
 }
 
 .result-detail {
-  font-size: 11px;
+  font-size: 13px;
   color: #555;
   margin: 0;
 }
 
 .processing-actions {
-  margin-top: 12px;
+  margin-top: 14px;
   text-align: right;
 }
 
-.processing-actions button { min-width: 100px; }
+.processing-actions button {
+  min-width: 110px;
+  font-size: 14px;
+  padding: 5px 14px;
+}
 
 /* ===== ERROR DIALOG ===== */
 .error-dialog {
@@ -379,30 +396,30 @@ fieldset legend {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 200;
-  width: 380px;
+  width: 400px;
   animation: windowOpen 0.15s ease-out;
 }
 
-.error-body { padding: 16px; }
+.error-body { padding: 18px; }
 
 .error-content {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 14px;
+  margin-bottom: 18px;
 }
 
-.error-icon { font-size: 32px; flex-shrink: 0; }
+.error-icon { font-size: 36px; flex-shrink: 0; }
 
 .error-content p {
   margin: 0;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.5;
   padding-top: 4px;
 }
 
 .error-actions { text-align: center; }
-.error-actions button { min-width: 75px; }
+.error-actions button { min-width: 80px; font-size: 14px; }
 
 /* Backdrop when error dialog is shown */
 .error-backdrop {
@@ -424,5 +441,9 @@ fieldset legend {
 
 /* ===== STATUS BAR ===== */
 .status-bar {
-  font-size: 11px;
+  font-size: 13px;
+}
+
+.status-bar p {
+  font-size: 13px;
 }
