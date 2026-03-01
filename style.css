@@ -1,0 +1,495 @@
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+
+/* ===== DESKTOP ===== */
+.desktop {
+  width: 100%;
+  height: 100%;
+  background: #1a1a3e;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Subtle crosshatch pattern on desktop */
+.desktop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(45deg, rgba(255,255,255,0.015) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255,255,255,0.015) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.015) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.015) 75%);
+  background-size: 4px 4px;
+  pointer-events: none;
+}
+
+.desktop-watermark {
+  position: absolute;
+  bottom: 42px;
+  right: 16px;
+  color: rgba(201, 168, 76, 0.12);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 14px;
+  font-style: italic;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: 1px;
+}
+
+/* ===== MAIN WINDOW ===== */
+.main-window {
+  width: 720px;
+  max-height: calc(100vh - 50px);
+  position: relative;
+  z-index: 10;
+  animation: windowOpen 0.2s ease-out;
+}
+
+@keyframes windowOpen {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.main-window > .window-body {
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ===== STATE MANAGEMENT ===== */
+.state { display: none; }
+.state.active { display: block; }
+
+/* ===== STATE 1: UPLOAD ===== */
+.upload-container { padding: 16px; }
+
+.drop-zone {
+  border: 2px dashed #808080;
+  background: #ffffff;
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  position: relative;
+}
+
+.drop-zone:hover,
+.drop-zone.dragover {
+  background: #e8e8ff;
+  border-color: #000080;
+}
+
+.drop-zone-content,
+.drop-zone-file {
+  text-align: center;
+  padding: 20px;
+}
+
+.drop-icon {
+  font-size: 48px;
+  margin-bottom: 8px;
+  filter: grayscale(0.3);
+}
+
+.drop-text {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 0 4px 0;
+  color: #000;
+}
+
+.drop-subtext {
+  font-size: 11px;
+  color: #808080;
+  margin: 0;
+}
+
+.drop-zone-file { position: relative; }
+
+.file-icon {
+  font-size: 40px;
+  margin-bottom: 4px;
+}
+
+.file-name {
+  font-size: 12px;
+  font-weight: bold;
+  color: #000080;
+  margin: 0;
+  word-break: break-all;
+}
+
+.remove-file {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 12px;
+  min-width: 20px;
+  min-height: 20px;
+  padding: 0 4px;
+}
+
+.upload-actions {
+  margin-top: 12px;
+  text-align: right;
+}
+
+.upload-actions button {
+  min-width: 120px;
+  font-weight: bold;
+}
+
+/* Loading overlay */
+.upload-loading {
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.loading-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+}
+
+.loading-subtitle {
+  font-size: 11px;
+  color: #808080;
+  margin: 0 0 16px 0;
+}
+
+/* Hourglass cursor during loading */
+body.loading, body.loading * {
+  cursor: wait !important;
+}
+
+/* ===== STATE 2: VERIFY ===== */
+.verify-tabs {
+  padding: 8px 12px 0 12px;
+}
+
+.verify-tabs menu[role="tablist"] {
+  margin-bottom: -2px;
+  position: relative;
+  z-index: 1;
+}
+
+.verify-tabs menu[role="tablist"] li[role="tab"] a {
+  font-size: 11px;
+}
+
+.tab-window {
+  border-top: none;
+}
+
+.tab-body {
+  padding: 12px;
+  min-height: 260px;
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Form layout */
+.form-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 2px;
+}
+
+.field-half { flex: 1; }
+
+.form-row-thirds {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 2px;
+}
+
+.form-row-thirds > .field-row-stacked { flex: 1; }
+
+.field-row-stacked {
+  margin-bottom: 6px;
+}
+
+.field-row-stacked label {
+  font-size: 11px;
+  margin-bottom: 2px;
+  display: block;
+}
+
+.field-row-stacked input,
+.field-row-stacked select,
+.field-row-stacked textarea {
+  width: 100%;
+}
+
+textarea { resize: vertical; font-family: inherit; }
+
+.readonly-field {
+  background: #e0e0e0 !important;
+  color: #555;
+}
+
+fieldset {
+  margin-top: 8px;
+  padding: 8px 12px 12px;
+}
+
+fieldset legend {
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* Verify footer */
+.verify-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px 10px;
+  border-top: 1px solid #dfdfdf;
+}
+
+.demo-mode {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+}
+
+.demo-mode select {
+  width: 110px;
+  font-size: 11px;
+}
+
+.verify-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.verify-actions button { min-width: 80px; }
+
+#btn-approve {
+  font-weight: bold;
+}
+
+/* ===== STATE 3: PROCESSING ===== */
+.processing-container { padding: 16px; }
+
+.processing-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+}
+
+.status-log {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  padding: 12px;
+  background: #000;
+  color: #00ff41;
+  min-height: 180px;
+  line-height: 1.8;
+}
+
+/* 98.css sunken panel override for terminal look */
+.status-log.sunken-panel {
+  background: #0a0a12;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.4;
+  transition: opacity 0.3s;
+}
+
+.step.active {
+  opacity: 1;
+  color: #00ff41;
+}
+
+.step.completed {
+  opacity: 0.9;
+  color: #00cc33;
+}
+
+.step.error {
+  opacity: 1;
+  color: #ff4444;
+}
+
+.step-icon {
+  flex-shrink: 0;
+  width: 16px;
+  text-align: center;
+}
+
+/* Blinking cursor for active step */
+.step.active .step-icon::after {
+  content: '';
+  display: inline-block;
+  width: 0;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.step.active .step-text::after {
+  content: '_';
+  animation: blink 0.8s step-end infinite;
+}
+
+.processing-result {
+  margin-top: 12px;
+  padding: 10px;
+  font-size: 13px;
+}
+
+.result-success p:first-child {
+  font-weight: bold;
+  font-size: 14px;
+  color: #000;
+  margin: 0 0 4px 0;
+}
+
+.result-error p:first-child {
+  font-weight: bold;
+  font-size: 14px;
+  color: #8b0000;
+  margin: 0 0 4px 0;
+}
+
+.result-detail {
+  font-size: 11px;
+  color: #555;
+  margin: 0;
+}
+
+.processing-actions {
+  margin-top: 12px;
+  text-align: right;
+}
+
+.processing-actions button { min-width: 100px; }
+
+/* ===== ERROR DIALOG ===== */
+.error-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 200;
+  width: 380px;
+  animation: windowOpen 0.15s ease-out;
+}
+
+.error-body { padding: 16px; }
+
+.error-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.error-icon { font-size: 32px; flex-shrink: 0; }
+
+.error-content p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  padding-top: 4px;
+}
+
+.error-actions { text-align: center; }
+.error-actions button { min-width: 75px; }
+
+/* Backdrop when error dialog is shown */
+.error-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 199;
+}
+
+/* ===== TASKBAR ===== */
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: #c0c0c0;
+  border-top: 1px solid #fff;
+  display: flex;
+  align-items: center;
+  padding: 2px 2px;
+  z-index: 100;
+  box-shadow: inset 0 1px 0 #dfdfdf;
+}
+
+.start-button {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 11px;
+  padding: 1px 6px;
+  height: 22px;
+  margin-right: 2px;
+}
+
+.taskbar-divider {
+  width: 2px;
+  height: 20px;
+  border-left: 1px solid #808080;
+  border-right: 1px solid #fff;
+  margin: 0 3px;
+}
+
+.taskbar-item {
+  padding: 1px 8px;
+  font-size: 11px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  min-width: 180px;
+  background: #c0c0c0;
+}
+
+.taskbar-item.active {
+  box-shadow: inset -1px -1px #dfdfdf, inset 1px 1px #0a0a0a;
+  font-weight: bold;
+}
+
+.taskbar-tray {
+  margin-left: auto;
+  padding: 1px 8px;
+  font-size: 11px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #808080;
+}
+
+/* ===== SCROLLBAR STYLING ===== */
+.tab-body::-webkit-scrollbar { width: 16px; }
+.tab-body::-webkit-scrollbar-track { background: #c0c0c0; }
+.tab-body::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border: 1px solid;
+  border-color: #fff #000 #000 #fff;
+}
+
+/* ===== STATUS BAR ===== */
+.status-bar {
+  font-size: 11px;
+}

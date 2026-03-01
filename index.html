@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Richards & Law - Case Intake System</title>
+  <link rel="stylesheet" href="https://unpkg.com/98.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="desktop">
+
+    <!-- Desktop watermark -->
+    <div class="desktop-watermark">Richards & Law</div>
+
+    <!-- ==================== MAIN WINDOW ==================== -->
+    <div class="window main-window" id="main-window">
+      <div class="title-bar">
+        <div class="title-bar-text" id="window-title">Richards & Law - Case Intake</div>
+        <div class="title-bar-controls">
+          <button aria-label="Minimize"></button>
+          <button aria-label="Maximize"></button>
+          <button aria-label="Close"></button>
+        </div>
+      </div>
+
+      <div class="window-body" id="window-body">
+
+        <!-- ========== STATE 1: UPLOAD ========== -->
+        <div id="state-upload" class="state active">
+          <div class="upload-container">
+            <div class="drop-zone" id="drop-zone">
+              <div class="drop-zone-content" id="drop-zone-content">
+                <div class="drop-icon">&#128194;</div>
+                <p class="drop-text">Drop Police Report PDF Here</p>
+                <p class="drop-subtext">or click to browse</p>
+              </div>
+              <div class="drop-zone-file" id="drop-zone-file" style="display:none">
+                <div class="file-icon">&#128196;</div>
+                <p class="file-name" id="file-name"></p>
+                <button class="remove-file" id="remove-file" title="Remove file">&#10005;</button>
+              </div>
+              <input type="file" id="file-input" accept=".pdf" style="display:none">
+            </div>
+
+            <div class="field-row-stacked" style="margin-top: 12px;">
+              <label for="upload-email">Client Email</label>
+              <input id="upload-email" type="email" value="talent.legal-engineer.hackathon.automation-email@swans.co">
+            </div>
+
+            <div class="upload-actions">
+              <button id="btn-upload" disabled>Upload & Extract</button>
+            </div>
+          </div>
+
+          <!-- Loading overlay (within upload state) -->
+          <div class="upload-loading" id="upload-loading" style="display:none">
+            <p class="loading-title">&#9203; Analyzing police report...</p>
+            <p class="loading-subtitle">GPT-4o is reading the document. This may take 15-30 seconds.</p>
+            <div role="progressbar" class="animate" style="width: 100%">
+              <div style="width: 100%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========== STATE 2: VERIFY ========== -->
+        <div id="state-verify" class="state">
+
+          <section class="tabs verify-tabs">
+            <menu role="tablist">
+              <li role="tab" aria-selected="true" data-tab="client"><a href="#tab-client">Client Info</a></li>
+              <li role="tab" data-tab="accident"><a href="#tab-accident">Accident</a></li>
+              <li role="tab" data-tab="vehicles"><a href="#tab-vehicles">Vehicles & Defendant</a></li>
+            </menu>
+
+            <div class="window tab-window" role="tabpanel">
+              <div class="window-body tab-body">
+
+                <!-- Tab 1: Client Info -->
+                <div class="tab-content active" id="tab-client">
+                  <div class="form-row">
+                    <div class="field-row-stacked field-half">
+                      <label for="f-first-name">First Name</label>
+                      <input id="f-first-name" type="text" data-field="client_first_name">
+                    </div>
+                    <div class="field-row-stacked field-half">
+                      <label for="f-last-name">Last Name</label>
+                      <input id="f-last-name" type="text" data-field="client_last_name">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="field-row-stacked field-half">
+                      <label for="f-dob">Date of Birth</label>
+                      <input id="f-dob" type="date" data-field="client_dob">
+                    </div>
+                    <div class="field-row-stacked field-half">
+                      <label for="f-sex">Sex</label>
+                      <select id="f-sex" data-field="client_sex">
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="field-row-stacked">
+                    <label for="f-address">Address</label>
+                    <textarea id="f-address" rows="3" data-field="client_address"></textarea>
+                  </div>
+                  <div class="field-row-stacked">
+                    <label for="f-email">Client Email</label>
+                    <input id="f-email" type="email" data-field="client_email">
+                  </div>
+                </div>
+
+                <!-- Tab 2: Accident -->
+                <div class="tab-content" id="tab-accident">
+                  <div class="form-row">
+                    <div class="field-row-stacked field-half">
+                      <label for="f-accident-date">Accident Date</label>
+                      <input id="f-accident-date" type="date" data-field="accident_date">
+                    </div>
+                    <div class="field-row-stacked field-half">
+                      <label for="f-sol-date">Statute of Limitations</label>
+                      <input id="f-sol-date" type="date" data-field="statute_of_limitations_date" readonly class="readonly-field">
+                    </div>
+                  </div>
+                  <div class="field-row-stacked">
+                    <label for="f-location">Accident Location</label>
+                    <textarea id="f-location" rows="2" data-field="accident_location"></textarea>
+                  </div>
+                  <div class="form-row form-row-thirds">
+                    <div class="field-row-stacked">
+                      <label for="f-num-vehicles"># Vehicles</label>
+                      <input id="f-num-vehicles" type="number" min="0" data-field="num_vehicles">
+                    </div>
+                    <div class="field-row-stacked">
+                      <label for="f-num-injured"># Injured</label>
+                      <input id="f-num-injured" type="number" min="0" data-field="num_injured">
+                    </div>
+                    <div class="field-row-stacked">
+                      <label for="f-num-killed"># Killed</label>
+                      <input id="f-num-killed" type="number" min="0" data-field="num_killed">
+                    </div>
+                  </div>
+                  <div class="field-row-stacked">
+                    <label for="f-description">Accident Description</label>
+                    <textarea id="f-description" rows="4" data-field="accident_description"></textarea>
+                  </div>
+                </div>
+
+                <!-- Tab 3: Vehicles & Defendant -->
+                <div class="tab-content" id="tab-vehicles">
+                  <div class="field-row-stacked">
+                    <label for="f-defendant">Defendant Name</label>
+                    <input id="f-defendant" type="text" data-field="defendant_name">
+                  </div>
+
+                  <fieldset>
+                    <legend>Client Vehicle</legend>
+                    <div class="form-row">
+                      <div class="field-row-stacked field-half">
+                        <label for="f-client-plate">Plate Number</label>
+                        <input id="f-client-plate" type="text" data-field="client_vehicle_plate">
+                      </div>
+                      <div class="field-row-stacked field-half">
+                        <label for="f-client-vehicle">Vehicle Description</label>
+                        <input id="f-client-vehicle" type="text" data-field="client_vehicle_description">
+                      </div>
+                    </div>
+                  </fieldset>
+
+                  <fieldset>
+                    <legend>Defendant Vehicle</legend>
+                    <div class="form-row">
+                      <div class="field-row-stacked field-half">
+                        <label for="f-def-plate">Plate Number</label>
+                        <input id="f-def-plate" type="text" data-field="defendant_vehicle_plate">
+                      </div>
+                      <div class="field-row-stacked field-half">
+                        <label for="f-def-vehicle">Vehicle Description</label>
+                        <input id="f-def-vehicle" type="text" data-field="defendant_vehicle_description">
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+
+              </div>
+            </div>
+          </section>
+
+          <!-- Demo mode + action buttons -->
+          <div class="verify-footer">
+            <div class="demo-mode">
+              <input type="checkbox" id="demo-toggle">
+              <label for="demo-toggle">Demo mode</label>
+              <select id="demo-month" disabled>
+                <option value="">--</option>
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+              </select>
+            </div>
+            <div class="verify-actions">
+              <button id="btn-back">&#9664; Back</button>
+              <button id="btn-approve">Approve & Process</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========== STATE 3: PROCESSING ========== -->
+        <div id="state-processing" class="state">
+          <div class="processing-container">
+            <p class="processing-title" id="processing-title">Processing case...</p>
+
+            <div role="progressbar" id="progress-bar" style="width: 100%; margin: 12px 0;">
+              <div id="progress-fill" style="width: 0%"></div>
+            </div>
+
+            <div class="status-log sunken-panel" id="status-log">
+              <div class="step" data-step="0">
+                <span class="step-icon">&#9675;</span>
+                <span class="step-text">Searching for contact in Clio...</span>
+              </div>
+              <div class="step" data-step="1">
+                <span class="step-icon">&#9675;</span>
+                <span class="step-text">Updating contact information...</span>
+              </div>
+              <div class="step" data-step="2">
+                <span class="step-icon">&#9675;</span>
+                <span class="step-text">Searching for existing Matter...</span>
+              </div>
+              <div class="step" data-step="3">
+                <span class="step-icon">&#9675;</span>
+                <span class="step-text">Updating Matter custom fields...</span>
+              </div>
+              <div class="step" data-step="4">
+                <span class="step-icon">&#9675;</span>
+                <span class="step-text">Creating SOL calendar entry...</span>
+              </div>
+              <div class="step" data-step="5">
+                <span class="step-icon">&#9675;</span>
+                <span class="step-text">Generating retainer agreement...</span>
+              </div>
+              <div class="step" data-step="6">
+                <span class="step-icon">&#9675;</span>
+                <span class="step-text">Sending retainer to client...</span>
+              </div>
+            </div>
+
+            <div class="processing-result" id="processing-result" style="display:none">
+              <div class="result-success" id="result-success" style="display:none">
+                <p>&#9989; Case processed successfully!</p>
+                <p class="result-detail" id="result-detail"></p>
+              </div>
+              <div class="result-error" id="result-error" style="display:none">
+                <p>&#10060; An error occurred</p>
+                <p class="result-detail" id="error-detail"></p>
+              </div>
+            </div>
+
+            <div class="processing-actions">
+              <button id="btn-new-case" disabled>New Case</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Status Bar -->
+      <div class="status-bar">
+        <p class="status-bar-field" id="status-text">Ready</p>
+        <p class="status-bar-field">Richards & Law Internal Tool</p>
+      </div>
+    </div>
+
+    <!-- ==================== ERROR DIALOG ==================== -->
+    <div class="window error-dialog" id="error-dialog" style="display:none">
+      <div class="title-bar">
+        <div class="title-bar-text">Error</div>
+        <div class="title-bar-controls">
+          <button aria-label="Close" id="error-close"></button>
+        </div>
+      </div>
+      <div class="window-body error-body">
+        <div class="error-content">
+          <span class="error-icon">&#10060;</span>
+          <p id="error-message">An error occurred.</p>
+        </div>
+        <div class="error-actions">
+          <button id="btn-error-ok">OK</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TASKBAR ==================== -->
+    <div class="taskbar">
+      <button class="start-button">
+        <svg width="14" height="14" viewBox="0 0 16 16" style="margin-right: 3px;">
+          <rect x="0" y="0" width="7" height="7" fill="#ff0000"/>
+          <rect x="9" y="0" width="7" height="7" fill="#00a800"/>
+          <rect x="0" y="9" width="7" height="7" fill="#0000ff"/>
+          <rect x="9" y="9" width="7" height="7" fill="#ffff00"/>
+        </svg>
+        Start
+      </button>
+      <div class="taskbar-divider"></div>
+      <div class="taskbar-item active" id="taskbar-item">
+        &#128194; Richards & Law - Case Intake
+      </div>
+      <div class="taskbar-tray">
+        <span id="taskbar-clock"></span>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
